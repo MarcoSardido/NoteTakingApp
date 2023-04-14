@@ -1,19 +1,30 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Button, Col, Row, Stack, Form } from 'react-bootstrap'
 import ReactSelect from "react-select"
 import { Link } from 'react-router-dom'
 
 // Types
-import { Tag } from '../../types'
+import { Note, Tag } from '../../types'
+import NoteCard, { SimplifiedNote } from './NoteCard'
 
 type NoteListProps = {
     availableTags: Tag[]
+    notes: SimplifiedNote[]
 }
 
-const NoteList = ({ availableTags }: NoteListProps) => {
+const NoteList = ({ availableTags, notes }: NoteListProps) => {
     // Hooks
     const [selectedTags, setSelectedTags] = useState<Tag[]>([])
     const [title, setTitle] = useState("")
+
+    const filteredNotes = useMemo(() => {
+        return notes.filter(note => {
+            // If title blank don't do anything, otherwise. Check if note have the same title
+            return (title === "" || note.title.toLowerCase().includes(title.toLocaleLowerCase())) && (selectedTags.length === 0 || selectedTags.every(tag => note.tags.some(noteTag => noteTag.id === tag.id)))
+            // Loop through all `selectedTags` and make sure every single one returns
+            // True for this code <note.tags.some(noteTag => noteTag.id === tag.id)>
+        })
+    }, [title, selectedTags, notes])
 
 
     // Functions
@@ -63,6 +74,13 @@ const NoteList = ({ availableTags }: NoteListProps) => {
                     </Col>
                 </Row>
             </Form>
+            <Row sx={1} sm={2} lg={3} xl={4} className='g-3'>
+                {filteredNotes.map(note => (
+                    <Col key={note.id}>
+                        <NoteCard id={note.id} title={note.title} tags={note.tags} />
+                    </Col>
+                ))}
+            </Row>
         </>
     )
 }
