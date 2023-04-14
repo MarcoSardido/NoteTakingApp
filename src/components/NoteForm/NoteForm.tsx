@@ -66,7 +66,8 @@ const NoteForm = ({ onSubmit, onAddTag, availableTags }: NoteFormProps) => {
                                         return { label: tag.label, id: tag.value }
                                     }))
                                 }}
-                                isMulti />
+                                isMulti 
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
