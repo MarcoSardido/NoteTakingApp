@@ -3,9 +3,9 @@ import { Button, Col, Form, Row, Stack } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CreatableReactSelect from "react-select/creatable"
 
-
 // Types
-import { NoteData, Tag } from '../../App'
+import { NoteData, Tag } from '../../types'
+
 
 type NoteFormProps = {
     onSubmit: (data: NoteData) => void
