@@ -43,7 +43,7 @@ const App = () => {
   return (
     <Container className='my-4'>
       <Routes>
-        <Route path="/" element={<NoteList availableTags={tags} />} />
+        <Route path="/" element={<NoteList availableTags={tags} notes={noteWithTags} />} />
         <Route path="/new" element={<NewNote onSubmit={onCreateNote} onAddTag={addTag} availableTags={tags} />} />
 
         <Route path="/:id">
