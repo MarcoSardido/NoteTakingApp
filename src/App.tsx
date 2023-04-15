@@ -36,7 +36,7 @@ const App = () => {
     })
   }
 
-  const onUpdateNote = (id: string, {tags, ...data}: NoteData) => {
+  const onUpdateNote = (id: string, { tags, ...data }: NoteData) => {
     setNotes(prevNotes => {
       return prevNotes.map(note => {
         if (note.id === id) {
@@ -48,35 +48,60 @@ const App = () => {
     })
   }
 
-  const addTag = (tag: Tag) => {
-    setTags(prevTags => [...prevTags, tag])
-  }
-
   const onDeleteNote = (id: string) => {
     setNotes(prevNotes => {
       return prevNotes.filter(note => note.id !== id)
     })
   }
 
+  const addTag = (tag: Tag) => {
+    setTags(prevTags => [...prevTags, tag])
+  }
+
+  const updateTag = (id: string, label: string) => {
+    setTags(prevTags => {
+      return prevTags.map(tag => {
+        if (tag.id === id) {
+          return { ...tag, label }
+        } else {
+          return tag
+        }
+      })
+    })
+  }
+
+  const deleteTag = (id: string) => {
+    setTags(prevTags => {
+      return prevTags.filter(tag => tag.id !== id)
+    })
+  }
+
+
   return (
     <Container className='my-4'>
       <Routes>
-        <Route path="/" element={<NoteList availableTags={tags} notes={noteWithTags} />} />
-        <Route path="/new" element={
-          <NewNote 
-            onSubmit={onCreateNote} 
-            onAddTag={addTag} 
-            availableTags={tags} />
+        <Route path="/" element={
+          <NoteList 
+            availableTags={tags} 
+            notes={noteWithTags}
+            updateTag={updateTag}
+            deleteTag={deleteTag} />
         }/>
+        <Route path="/new" element={
+          <NewNote
+            onSubmit={onCreateNote}
+            onAddTag={addTag}
+            availableTags={tags} />
+        } />
 
         <Route path="/:id" element={<NoteLayout notes={noteWithTags} />}>
           <Route index element={<Note onDelete={onDeleteNote} />} />
           <Route path="edit" element={
-            <EditNote 
-              onSubmit={onUpdateNote} 
-              onAddTag={addTag} 
+            <EditNote
+              onSubmit={onUpdateNote}
+              onAddTag={addTag}
               availableTags={tags} />
-          }/>
+          } />
         </Route>
 
         <Route path="*" element={<h1>404</h1>} />
