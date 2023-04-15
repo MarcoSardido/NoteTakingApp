@@ -10,6 +10,7 @@ import useLocalStorage from './hooks/useLocalStorage'
 // Types
 import { NoteData, RawNote, Tag } from './types'
 import NoteList from './components/NoteList/NoteList'
+import NoteLayout from './components/NoteLayout/NoteLayout'
 
 
 const App = () => {
@@ -46,7 +47,7 @@ const App = () => {
         <Route path="/" element={<NoteList availableTags={tags} notes={noteWithTags} />} />
         <Route path="/new" element={<NewNote onSubmit={onCreateNote} onAddTag={addTag} availableTags={tags} />} />
 
-        <Route path="/:id">
+        <Route path="/:id" element={<NoteLayout notes={noteWithTags} />}>
           <Route index element={<h1>Get</h1>} />
           <Route path="edit" element={<h1>Edit</h1>} />
         </Route>
