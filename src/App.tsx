@@ -12,6 +12,7 @@ import { NoteData, RawNote, Tag } from './types'
 import NoteList from './components/NoteList/NoteList'
 import NoteLayout from './components/NoteLayout/NoteLayout'
 import Note from './components/Note/Note'
+import EditNote from './components/EditNote/EditNote'
 
 
 const App = () => {
@@ -35,6 +36,18 @@ const App = () => {
     })
   }
 
+  const onUpdateNote = (id: string, {tags, ...data}: NoteData) => {
+    setNotes(prevNotes => {
+      return prevNotes.map(note => {
+        if (note.id === id) {
+          return { ...note, ...data, tagIds: tags.map(tag => tag.id) }
+        } else {
+          return note
+        }
+      })
+    })
+  }
+
 
   const addTag = (tag: Tag) => {
     setTags(prevTags => [...prevTags, tag])
@@ -46,11 +59,21 @@ const App = () => {
     <Container className='my-4'>
       <Routes>
         <Route path="/" element={<NoteList availableTags={tags} notes={noteWithTags} />} />
-        <Route path="/new" element={<NewNote onSubmit={onCreateNote} onAddTag={addTag} availableTags={tags} />} />
+        <Route path="/new" element={
+          <NewNote 
+            onSubmit={onCreateNote} 
+            onAddTag={addTag} 
+            availableTags={tags} />
+        }/>
 
         <Route path="/:id" element={<NoteLayout notes={noteWithTags} />}>
           <Route index element={<Note />} />
-          <Route path="edit" element={<h1>Edit</h1>} />
+          <Route path="edit" element={
+            <EditNote 
+              onSubmit={onUpdateNote} 
+              onAddTag={addTag} 
+              availableTags={tags} />
+          }/>
         </Route>
 
         <Route path="*" element={<h1>404</h1>} />
