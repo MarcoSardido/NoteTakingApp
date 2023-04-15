@@ -48,12 +48,15 @@ const App = () => {
     })
   }
 
-
   const addTag = (tag: Tag) => {
     setTags(prevTags => [...prevTags, tag])
   }
 
-
+  const onDeleteNote = (id: string) => {
+    setNotes(prevNotes => {
+      return prevNotes.filter(note => note.id !== id)
+    })
+  }
 
   return (
     <Container className='my-4'>
@@ -67,7 +70,7 @@ const App = () => {
         }/>
 
         <Route path="/:id" element={<NoteLayout notes={noteWithTags} />}>
-          <Route index element={<Note />} />
+          <Route index element={<Note onDelete={onDeleteNote} />} />
           <Route path="edit" element={
             <EditNote 
               onSubmit={onUpdateNote} 
