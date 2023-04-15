@@ -8,7 +8,7 @@ type NoteProps = {
     onDelete: (id: string) => void
 }
 
-const Note = ({onDelete}: NoteProps) => {
+const Note = ({ onDelete }: NoteProps) => {
     const note = useNote()
     const navigate = useNavigate()
     return (
@@ -38,8 +38,8 @@ const Note = ({onDelete}: NoteProps) => {
                         <Button onClick={() => {
                             onDelete(note.id)
                             navigate('/')
-                        }} 
-                        variant="outline-danger">Delete</Button>
+                        }}
+                            variant="outline-danger">Delete</Button>
                         <Link to='/'>
                             <Button variant="outline-secondary">Back</Button>
                         </Link>
