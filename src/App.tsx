@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { v4 as uuidV4 } from "uuid"
 import NewNote from './components/NewNote/NewNote'
-import { Container } from 'react-bootstrap'
 
 // Custom Hooks
 import useLocalStorage from './hooks/useLocalStorage'
@@ -13,6 +12,8 @@ import NoteList from './components/NoteList/NoteList'
 import NoteLayout from './components/NoteLayout/NoteLayout'
 import Note from './components/Note/Note'
 import EditNote from './components/EditNote/EditNote'
+import Login from './components/Login/Login'
+import Header from './components/Header/Header'
 
 
 const App = () => {
@@ -78,35 +79,39 @@ const App = () => {
 
 
   return (
-    <Container className='my-4'>
-      <Routes>
-        <Route path="/" element={
-          <NoteList 
-            availableTags={tags} 
-            notes={noteWithTags}
-            updateTag={updateTag}
-            deleteTag={deleteTag} />
-        }/>
-        <Route path="/new" element={
-          <NewNote
-            onSubmit={onCreateNote}
-            onAddTag={addTag}
-            availableTags={tags} />
-        } />
+    <div className='bg-gradient-to-tr from-[#000000] to-[#130F40] text-white h-screen'>
+      <Header />
+    </div>
+    
+    // <Container className='my-4'>
+    //   <Routes>
+    //     <Route path="/" element={
+    //       <NoteList 
+    //         availableTags={tags} 
+    //         notes={noteWithTags}
+    //         updateTag={updateTag}
+    //         deleteTag={deleteTag} />
+    //     }/>
+    //     <Route path="/new" element={
+    //       <NewNote
+    //         onSubmit={onCreateNote}
+    //         onAddTag={addTag}
+    //         availableTags={tags} />
+    //     } />
 
-        <Route path="/:id" element={<NoteLayout notes={noteWithTags} />}>
-          <Route index element={<Note onDelete={onDeleteNote} />} />
-          <Route path="edit" element={
-            <EditNote
-              onSubmit={onUpdateNote}
-              onAddTag={addTag}
-              availableTags={tags} />
-          } />
-        </Route>
+    //     <Route path="/:id" element={<NoteLayout notes={noteWithTags} />}>
+    //       <Route index element={<Note onDelete={onDeleteNote} />} />
+    //       <Route path="edit" element={
+    //         <EditNote
+    //           onSubmit={onUpdateNote}
+    //           onAddTag={addTag}
+    //           availableTags={tags} />
+    //       } />
+    //     </Route>
 
-        <Route path="*" element={<h1>404</h1>} />
-      </Routes>
-    </Container>
+    //     <Route path="*" element={<h1>404</h1>} />
+    //   </Routes>
+    // </Container>
   )
 }
 
